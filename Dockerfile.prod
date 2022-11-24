@@ -12,5 +12,5 @@ RUN echo "deb http://deb.debian.org/debian stretch-backports main" >> /etc/apt/s
 
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-COPY target/tut-spring-kafka-consumer.jar /app.jar
+COPY build/libs/tut-spring-kafka-consumer.jar /app.jar
 CMD java ${JAVA_OPTS} -Dspring.profiles.active=${ACTIVE_PROFILES} -jar /app.jar

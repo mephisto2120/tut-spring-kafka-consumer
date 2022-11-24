@@ -49,6 +49,15 @@ version = '0.0.1-SNAPSHOT'
 description = 'tut-spring-kafka-consumer'
 java.sourceCompatibility = JavaVersion.VERSION_11
 
+task copyWithoutSnapshotInName(type: Copy) {
+    from "$buildDir/libs"
+    into "$buildDir/libs"
+    rename { filename ->
+        System.out.println "File matched to rename is $buildDir/libs" + filename
+        filename.replace "-$version", ''
+    }
+}
+
 publishing {
     publications {
         maven(MavenPublication) {

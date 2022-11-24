@@ -8,9 +8,10 @@ services:
 
 script:
   -  ./gradlew clean build
+  -  ./gradlew copyWithoutSnapshotInName
 
 after_success:
-  - docker build -t mephisto2120/tut-spring-kafka-consumer .
+  - docker build -f Dockerfile.prod -t mephisto2120/tut-spring-kafka-consumer .
   # Log in to the docker CLI
   - echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_ID" --password-stdin
   # Take those images and push them to docker hub

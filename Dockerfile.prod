@@ -1,0 +1,16 @@
+FROM openjdk:11-jre-slim
+ENV TZ=Europe/Warsaw
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN echo "deb http://deb.debian.org/debian stretch-backports main" >> /etc/apt/sources.list \
+    && apt-get update \
+    && apt-get upgrade -y \
+    && apt-get autoremove --purge -y \
+    && apt-get clean -y \
+    && apt-get -y -t stretch-backports install libtcnative-1 \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+COPY target/tut-spring-kafka-consumer.jar /app.jar
+CMD java ${JAVA_OPTS} -Dspring.profiles.active=${ACTIVE_PROFILES} -jar /app.jar

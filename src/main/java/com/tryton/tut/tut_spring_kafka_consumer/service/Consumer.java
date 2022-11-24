@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 @Service
 @CommonsLog
 public class Consumer {
-    @KafkaListener(topics = "users", groupId = "group_id")
+    @KafkaListener(topics = "wikimedia.recentchange", groupId = "consumer-opensearch-demo-X")
     public void consume(String message) {
         log.info(String.format("Consumed message: %s", message));
     }

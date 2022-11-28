@@ -11,6 +11,7 @@ import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.opensearch.client.RestClient;
 import org.opensearch.client.RestHighLevelClient;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -20,14 +21,20 @@ import java.util.Properties;
 @Configuration
 public class KafkaConsumerConfig {
 
+	private final String boostrapServers;
+	private final String openSearchClientUrl;
+
+	public KafkaConsumerConfig(@Value("${spring.kafka.consumer.bootstrap-servers}") String boostrapServers,
+							   @Value("${openSearchClientUrl}")String openSearchClientUrl) {
+		this.boostrapServers = boostrapServers;
+		this.openSearchClientUrl = openSearchClientUrl;
+	}
+
 	@Bean
 	public RestHighLevelClient openSearchClient() {
-		String connString = "http://localhost:9200";
-//        String connString = "https://c9p5mwld41:45zeygn9hy@kafka-course-2322630105.eu-west-1.bonsaisearch.net:443";
-
 		// we build a URI from the connection string
 		RestHighLevelClient restHighLevelClient;
-		URI connUri = URI.create(connString);
+		URI connUri = URI.create(openSearchClientUrl);
 		// extract login information if it exists
 		String userInfo = connUri.getUserInfo();
 
@@ -56,8 +63,6 @@ public class KafkaConsumerConfig {
 
 	@Bean
 	public KafkaConsumer<String, String> kafkaConsumer() {
-
-		String boostrapServers = "127.0.0.1:9092";
 		String groupId = "consumer-opensearch-demo";
 
 		// create consumer configs

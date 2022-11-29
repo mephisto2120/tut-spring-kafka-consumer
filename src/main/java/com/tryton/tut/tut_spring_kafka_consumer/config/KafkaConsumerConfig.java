@@ -24,7 +24,7 @@ public class KafkaConsumerConfig {
 	private final String boostrapServers;
 	private final String openSearchClientUrl;
 
-	public KafkaConsumerConfig(@Value("${spring.kafka.consumer.bootstrap-servers}") String boostrapServers,
+	public KafkaConsumerConfig(@Value("${kafka.bootstrap.servers}") String boostrapServers,
 							   @Value("${openSearchClientUrl}")String openSearchClientUrl) {
 		this.boostrapServers = boostrapServers;
 		this.openSearchClientUrl = openSearchClientUrl;

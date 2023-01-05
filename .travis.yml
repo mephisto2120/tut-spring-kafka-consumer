@@ -1,0 +1,29 @@
+language: java
+os: linux
+dist: trusty
+jdk: openjdk11
+sudo: required
+services:
+  - docker
+
+script:
+  -  ./gradlew clean build
+  -  ./gradlew copyWithoutSnapshotInName
+
+after_success:
+  - docker build -f Dockerfile.prod -t mephisto2120/tut-spring-kafka-consumer .
+  # Log in to the docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_ID" --password-stdin
+  # Take those images and push them to docker hub
+  - docker push mephisto2120/tut-spring-kafka-consumer
+deploy:
+  provider: elasticbeanstalk
+  region: us-east-2  #TO BE CHANGED
+  app: tut-spring-kafka-consumer
+  env: Servicetemplate-env
+  bucket_name: elasticbeanstalk-us-east-2-700196549790 #TO BE CHANGED
+  bucket_path: tut-spring-kafka-consumer-docker
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY #to be defined in travis, previously has to be generated in AWS
+  secret_access_key: $AWS_SECRET_KEY #to be defined in travis, previously has to be generated in AWS

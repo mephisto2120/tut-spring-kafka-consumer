@@ -1,3 +1,4 @@
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/mephisto2120/tut-spring-kafka-consumer/tree/master.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/mephisto2120/tut-spring-kafka-consumer/tree/master)
 # tut-spring-kafka-consumer-consumer
 
 Installing it on amazon EC2 with Amazon Linux 2:
